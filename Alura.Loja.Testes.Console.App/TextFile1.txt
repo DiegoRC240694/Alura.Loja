@@ -1,0 +1,141 @@
+﻿using Alura.Loja.Testes.Console.App;
+
+namespace Alura.Loja.Testes.ConsoleApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //GravarUsandoAdoNet();
+            //GravarUsandoEntity();
+            //RecuperarProdutos();
+            //ExcluirProdutos();
+            //RecuperarProdutos();
+            AtualizarProduto();
+        }
+
+        private static void AtualizarProduto()
+        {
+            // incluir um produto
+            GravarUsandoEntity();
+            RecuperarProdutos();
+
+            //atualiza o produto
+            using(var repo = new ProdutoDAOEntity())
+            {
+                Produto primeiro = repo.Produtos().First();
+                primeiro.nome = "Cassino Royale - Editado";
+                repo.Atualizar(primeiro);
+                //repo.produtos.Update(primeiro);
+                //repo.SaveChanges();
+            }
+            RecuperarProdutos();
+        }
+
+        private static void ExcluirProdutos()
+        {
+            using(var repo = new ProdutoDAOEntity())
+            {
+                //IList<Produto> produtos = repo.produtos.ToList();
+                IList<Produto> produtos = repo.Produtos();
+                foreach (var produto in produtos)
+                {
+                    //repo.produtos.Remove(produto);
+                    repo.Remover(produto);
+                }
+                //repo.SaveChanges();
+            }
+        }
+
+        private static void RecuperarProdutos()
+        {
+            using( var repo = new ProdutoDAOEntity())
+            {
+                // IList<Produto> produtos = repo.produtos.ToList();
+                IList<Produto> produtos = repo.Produtos();
+                System.Console.WriteLine("Foram encontrados {0} produto(s).", produtos.Count);
+                foreach( var produto in produtos )
+                {
+                    System.Console.WriteLine(produto.nome);
+                   
+                }
+            }
+        }
+
+        private static void GravarUsandoEntity()
+        {
+            Produto p = new Produto();
+            p.nome = "Harry Potter e a Ordem da Fênix";
+            p.categoria = "Livros";
+            p.preco = 19.89;
+
+            using (var contexto = new ProdutoDAOEntity())
+            {
+                //contexto.produtos.Add(p);
+                contexto.Adicionar(p);
+
+                //contexto.SaveChanges();
+            }
+        }
+
+        //private static void GravarUsandoEntity()
+        //{
+        //    Produto p1 = new Produto();
+        //    p1.nome = "Harry Potter e a Ordem da Fênix";
+        //    p1.categoria = "Livros";
+        //    p1.preco = 19.89;
+
+        //    Produto p2 = new Produto();
+        //    p2.nome = "Senhor dos Anéis 1";
+        //    p2.categoria = "Livros";
+        //    p2.preco = 19.89;
+
+        //    Produto p3 = new Produto();
+        //    p3.nome = "O Monge e o Executivo";
+        //    p3.categoria = "Livros";
+        //    p3.preco = 19.89;
+
+        //    using(var contexto = new LojaContext())
+        //    {
+        //        //contexto.produtos.Add(p1);
+        //        //contexto.produtos.Add(p2);
+        //        //contexto.produtos.Add(p3);
+        //        contexto.produtos.AddRange(p1, p2, p3);
+        //        contexto.SaveChanges();
+        //    }
+        //}
+
+        //private static void GravarUsandoEntity()
+        //{
+        //    var livros = new List<Produto>()
+        //    {
+        //        new Produto("Ruff Gannor", "Livros", 15.99),
+        //        new Produto("Senhor dos Aneis e as Duas Torres", "Livros", 24.90),
+        //        new Produto("Senhor dos Aneis", "Livros", 19.90),
+        //        new Produto("A menina que roubava livros", "Livros", 29.90),
+        //        new Produto("O caçador de Pipas", "Livros", 15.90),
+        //        new Produto("Pai rico pai pobre", "Livros", 57.90)
+        //    };
+        //    using (var contexto = new LojaContext())
+        //    {
+        //        contexto.produtos.AddRange(livros);
+        //        contexto.SaveChanges();
+        //    }
+        //}
+
+        //private static void GravarUsandoAdoNet()
+        //{
+        //    Produto p = new Produto();
+        //    p.Nome = "Harry Potter e a Ordem da Fênix";
+        //    p.Categoria = "Livros";
+        //    p.Preco = 19.89;
+
+        //    using (var repo = new ProdutoDAO())
+        //    {
+        //        repo.Adicionar(p);
+        //    }
+        //}
+    }
+
+    
+}
